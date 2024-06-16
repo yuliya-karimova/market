@@ -28,3 +28,4 @@ graphs
 *.njsproj
 *.sln
 *.sw?
+openai-api-request-example.ipynb

@@ -1,0 +1,14 @@
+Flask
+flask-cors
+flask-sqlalchemy
+Werkzeug
+jwt
+python-docx
+requests
+beautifulsoup4
+pydantic
+pandas
+numpy
+matplotlib
+statsmodels
+babel

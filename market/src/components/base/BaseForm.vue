@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import type { FetchError } from 'ofetch'
 import { useForm } from 'vee-validate'
 
 const props = defineProps({
@@ -43,7 +42,7 @@ const onSubmit = handleSubmit(async (values, actions) => {
         actions.resetForm()
       }
     } catch (error: any) {
-      const fetchError = error as FetchError
+      const fetchError = error as any
 
       if (
         !fetchError.data?.errors ||

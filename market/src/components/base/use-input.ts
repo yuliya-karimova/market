@@ -36,18 +36,18 @@ export function useInput(
     props.modelValue === undefined ? props.value : props.modelValue
   )
   const handlers: Record<string, any> = reactive({
-    input(e: HTMLElementEvent<HTMLInputElement>) {
+    input(e: any) {
       let value: string | number = e.target?.value || e.target?.innerText
 
       if (props.type === 'number') {
-        value = parseFloat(value || '0')
+        value = parseFloat(value as string || '0')
       } else {
-        localValue.value = value.replace(/<(.|\n)*?>/g, '')
+        localValue.value = (value as string).replace(/<(.|\n)*?>/g, '')
       }
 
       emit('update:modelValue', value)
     },
-    keypress(e: HTMLElementEvent<HTMLInputElement>) {
+    keypress(e: any) {
       const value = e.target?.value || e.target?.innerText
 
       if (props.maxlength && value.length >= props.maxlength) {
@@ -78,10 +78,10 @@ export function useInput(
       handleChange(value, false)
     }
 
-    handlers.change = function (e: HTMLElementEvent<HTMLInputElement>) {
+    handlers.change = function (e: any) {
       handleChange(e)
     }
-    handlers.blur = function (e: HTMLElementEvent<HTMLInputElement>) {
+    handlers.blur = function (e: any) {
       handleBlur(e)
       handleChange(e)
     }
