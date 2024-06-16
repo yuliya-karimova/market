@@ -22,7 +22,7 @@
       <h2 class="font-bold text-3xl mb-2">Прогноз цен на металл</h2>
       <div class="mb-12">
         Источник данных по ценам:
-        <BaseLink :href="reportStore.prediction.link">{{ reportStore.prediction.link }}</BaseLink>
+        <BaseLink :href="reportStore.prediction.link" target="_blank">{{ reportStore.prediction.link }}</BaseLink>
       </div>
       <h2 class="text-center">ACF and PACF Chart</h2>
       <img
@@ -43,11 +43,8 @@
 import { ref } from 'vue'
 import { useReportStore } from '@/stores/report'
 import BaseButton from '@/components/base/button/BaseButton.vue'
-import BaseSelect from '@/components/base/BaseSelect.vue'
-import BaseInput from '@/components/base/BaseInput.vue'
 import BaseIcon from '@/components/base/icon/BaseIcon.vue'
 import MarkdownBlock from '@/components/MarkdownBlock.vue'
-import { companiesOptions } from '@/models/companies'
 import BaseSpinner from '@/components/base/BaseSpinner.vue'
 import { RouterLink } from 'vue-router'
 
@@ -62,11 +59,6 @@ const getPrediction = async () => {
 
   try {
     await reportStore.getNextYearPrediction()
-    // if (typeof result === 'string') {
-    //   report.value = result
-    // } else {
-    //   throw new Error(result)
-    // }
   } catch (err: any) {
     error.value = err.message || 'An error occurred'
   } finally {

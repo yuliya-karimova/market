@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import CompanyView from '@/views/CompanyView.vue'
 import PricesView from '@/views/PricesView.vue'
+import MarketView from '@/views/MarketView.vue'
+import CompareView from '@/views/CompareView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +18,11 @@ const router = createRouter({
       component: () => import('../views/AnalyticsView.vue'),
     },
     {
+      path: '/analytics/compare',
+      name: 'compare',
+      component: CompareView
+    },
+    {
       path: '/analytics/company',
       name: 'company',
       component: CompanyView
@@ -23,7 +30,7 @@ const router = createRouter({
     {
       path: '/analytics/market',
       name: 'market',
-      component: CompanyView
+      component: MarketView
     },
     {
       path: '/analytics/prices',

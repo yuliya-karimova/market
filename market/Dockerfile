@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Скопируйте все файлы в контейнер
-COPY . /app
+COPY . .
 
 # Соберите приложение
 RUN npm run build
@@ -20,4 +20,4 @@ RUN npm run build
 EXPOSE 3000
 
 # Укажите команду для запуска приложения
-CMD ["npm", "start"]
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "3000"]

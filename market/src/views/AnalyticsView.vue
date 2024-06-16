@@ -27,12 +27,12 @@ const router = useRouter()
 
 const reportList = [
   {
-    title: 'Аналитика рынка',
+    title: 'Анализ цен',
     id: 'market',
-    description: 'Получить краткую сводку анализа рынка металла на основе открытых источников из интернета.',
-    icon: 'outline_chart_bar',
+    description: 'Анализ цен компании Северсталь в сравнении с конкурентами',
+    icon: 'outline_document_report',
     action: () => {
-      router.push('/analytics/market')
+      router.push('/analytics/compare')
     }
   },
   {
@@ -52,6 +52,15 @@ const reportList = [
     action: () => {
       router.push('/analytics/company')
     }
-  }
+  },
+  {
+    title: 'Аналитика рынка',
+    id: 'market',
+    description: 'Получить краткую сводку анализа рынка металла на основе открытых источников из интернета.',
+    icon: 'outline_chart_bar',
+    action: () => {
+      router.push('/analytics/market')
+    }
+  },
 ]
 </script>

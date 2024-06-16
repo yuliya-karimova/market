@@ -10,13 +10,20 @@ interface PredictionInterface {
   forecast_chart: Object
 }
 
+interface CompareInterface {
+  pic?: Object
+  text?: string
+}
+
 interface ReportState {
   prediction: PredictionInterface | null
+  compareResult: CompareInterface[]
 }
 
 export const useReportStore = defineStore('report', {
   state: (): ReportState => ({
     prediction: null,
+    compareResult: [],
   }),
   actions: {
     async checkCompany(company: string, isNew = false): Promise<string> {
@@ -40,6 +47,22 @@ export const useReportStore = defineStore('report', {
       try {
         const response = await axios.get(`${apiBaseUrl}/api/predict-next-year`)
         this.prediction = response.data.data
+      } catch (err: any) {
+        return err.response?.data?.error || 'Не удалось получить данные'
+      }
+    },
+    async compare(isNew: boolean) {
+      if (this.compare.length) {
+        return
+      }
+
+      try {
+        const response = await axios.get(`${apiBaseUrl}/api/compare-prices`, {
+          params: {
+            is_new: isNew
+          }
+        })
+        this.compareResult = response.data.data
       } catch (err: any) {
         return err.response?.data?.error || 'Не удалось получить данные'
       }

@@ -15,7 +15,7 @@
       >
         <div class="font-bold text-xl mb-4 text-primary-800">{{ news.title }}</div>
         <div class="line-clamp-3 text-sm">{{ news.description }}</div>
-        <BaseLink v-if="news.link" :href="news.link" class="font-normal mb-4 text-sm">
+        <BaseLink v-if="news.link" :href="news.link" class="font-normal mb-4 text-sm" target="_blank">
           Продолжить чтение
         </BaseLink>
         <div class="capitalize text-sm">{{ news.date }}</div>

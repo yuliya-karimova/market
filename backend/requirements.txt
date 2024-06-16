@@ -2,7 +2,7 @@ Flask
 flask-cors
 flask-sqlalchemy
 Werkzeug
-jwt
+pyjwt==2.1.0
 python-docx
 requests
 beautifulsoup4
@@ -12,3 +12,5 @@ numpy
 matplotlib
 statsmodels
 babel
+openpyxl
+seaborn

@@ -9,10 +9,11 @@ from company import check_company
 from news import read_analytic_news
 from agrerator import collect_analytics
 from predict import predict_next_year
+from compare_prices import compare_prices
 
 app = Flask(__name__)
 app.secret_key = 'karimova'
-CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
+CORS(app, supports_credentials=True, origins=["http://localhost:5173", "http://localhost:3000", "http://frontend:3000"])
 
 # Конфигурация базы данных
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
@@ -131,7 +132,6 @@ def logout():
 
 @app.route('/api/check-company', methods=['GET'])
 def check_company_endpoint():
-    print('request.args: ', request.args)
     company_name = request.args.get('company')
     is_new = request.args.get('is_new')
     if not company_name:
@@ -165,7 +165,18 @@ def predict_next_year_endpoint():
         res = predict_next_year()
         return jsonify({"data": res})
     except Exception as e:
+        print('e: ', e)
+        return jsonify({"error": str(e)}), 300
+    
+@app.route('/api/compare-prices', methods=['GET'])
+def compare_prices_endpoint():
+    is_new = request.args.get('is_new')
+
+    try:
+        res = compare_prices(is_new)
+        return jsonify({"data": res})
+    except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=8000)

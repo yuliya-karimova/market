@@ -1,12 +1,18 @@
 <template>
   <div class="py-12 w-full">
+    <RouterLink to="/analytics">
+      <BaseButton look="link" theme="secondary" class="!p-0 max-w-min">
+        <div class="flex gap-2 items-center font-normal">
+          <BaseIcon name="outline_arrow_left" size="xs" />
+          <span>Назад к выбору отчета</span>
+        </div>
+      </BaseButton>
+    </RouterLink>
+    <h1 class="text-4xl text-primary-800 uppercase font-mont mb-12">Анализ рынка металла</h1>
     <div v-if="loading" class="flex justify-center py-12">
       <BaseSpinner />
     </div>
-    <div
-      v-else-if="newsStore.analytic.length"
-      class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6"
-    >
+    <div v-else-if="newsStore.analytic.length" class="div">
       <div
         v-for="item in newsStore.analytic"
         :key="item.link"
@@ -15,7 +21,7 @@
         <MarkdownBlock v-if="item.content" :content="item.content" />
         <div>
           Источник:
-          <BaseLink v-if="item.link" :href="item.link" class="font-normal mb-4 text-md">
+          <BaseLink v-if="item.link" :href="item.link" class="font-normal mb-4 text-md" target="_blank">
             {{ item.source }}
           </BaseLink>
         </div>
@@ -31,6 +37,8 @@ import { useNewsStore } from '@/stores/news'
 import BaseLink from '@/components/base/BaseLink.vue'
 import BaseSpinner from '@/components/base/BaseSpinner.vue'
 import MarkdownBlock from '@/components/MarkdownBlock.vue'
+import BaseButton from '@/components/base/button/BaseButton.vue'
+import { RouterLink } from 'vue-router'
 
 const loading = ref<boolean>(false)
 

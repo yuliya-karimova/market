@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from statsmodels.tsa.arima.model import ARIMA
-# from ai import ask_ai
 from datetime import datetime
 import os
 import base64
@@ -170,7 +169,7 @@ def predict_next_year():
     report_text = "\n".join(report)
 
     request = {
-        "model": "gpt-3.5-turbo",
+        "model": "gpt-4o",
         "messages": [
             {"role": "system", "content": "Перепиши результаты анализа, используя академическую стилистику и сложные экономические термины. Пиши подробно, не меняй цифры. Применяй рассуждения и аналитические выводы. Описание должно быть выполнено на уровне лучших экономических журналов. Пиши на русском языке. Используй маркдаун для оформления."},
             {"role": "user", "content": report_text}
@@ -179,7 +178,6 @@ def predict_next_year():
     }
 
     response = ask_ai(request)
-    # response = report_text
 
     return {
         "link": 'https://www.metalinfo.ru/ru/metalmarket/statistics',
