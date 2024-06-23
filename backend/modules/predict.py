@@ -13,12 +13,15 @@ import os
 import base64
 from io import BytesIO
 from modules.ai import ask_ai
+from modules.utils import save_to_docx, save_to_pdf
 
 import matplotlib
 matplotlib.use('Agg')
 
-json_result_file_path = 'data/predict/predict_result.json'
 prices_file = 'data/metal_prices.xlsx'
+json_result_file_path = 'data/predict/predict_result.json'
+docx_result_file_path = 'data/predict/predict_result.docx'
+pdf_result_file_path = 'data/predict/predict_result.pdf'
 
 def extract_chart_data(period=None, start_date=None, end_date=None, output_file = ''):
     # Определение URL в зависимости от входных параметров
@@ -101,7 +104,19 @@ def predict_next_year(is_new = 'false'):
     if is_new == 'false' and os.path.exists(json_result_file_path):
         with open(json_result_file_path, 'r', encoding='utf-8') as f:
             json_data = json.load(f)
-            return json_data.get("data", [])
+            res = json_data.get("data", [])
+            
+            # # Сохранение отчета в DOCX и PDF
+            images = [res['acf_pacf_chart'], res['forecast_chart']]
+            link = res['link']
+            report = res['report']
+            
+            report_text = "\n".join([f'Источник данных по ценам: {link}', 'Расшифровка и анализ:', report])
+            
+            save_to_docx(report_text, images, docx_result_file_path)
+            save_to_pdf(report_text, images, pdf_result_file_path)
+                    
+            return res
         
     today = datetime.today()
     # Форматирование даты в "dd-mm-yyyy"
@@ -123,7 +138,7 @@ def predict_next_year(is_new = 'false'):
     fig, axes = plt.subplots(1, 2, figsize=(16, 4))
     plot_acf(data['Average Price (RUB)'], lags=40, ax=axes[0])
     plot_pacf(data['Average Price (RUB)'], lags=40, ax=axes[1])
-    acf_pacf_base64 = plot_to_base64(fig)
+    acf_pacf_chart = plot_to_base64(fig)
     plt.close(fig)
 
     # Подбор модели ARIMA на основе графиков ACF и PACF
@@ -154,7 +169,7 @@ def predict_next_year(is_new = 'false'):
     plt.legend()
     plt.grid(True)
 
-    forecast_base64 = plot_to_base64(plt)
+    forecast_chart = plot_to_base64(plt)
     plt.close(fig)
 
     # Создание текстового отчета
@@ -184,15 +199,24 @@ def predict_next_year(is_new = 'false'):
 
     response = ask_ai(request)
     
+    source = 'https://www.metalinfo.ru/ru/metalmarket/statistics'
+    
     result = {
-        "link": 'https://www.metalinfo.ru/ru/metalmarket/statistics',
+        "link": source,
         "report": response,
-        "acf_pacf_chart": acf_pacf_base64,
-        "forecast_chart": forecast_base64
+        "acf_pacf_chart": acf_pacf_chart,
+        "forecast_chart": forecast_chart
     }
     
     # Сохранение результата в JSON-файл
     with open(json_result_file_path, 'w', encoding='utf-8') as f:
         json.dump({"data": result}, f, ensure_ascii=False, indent=4)
+        
+    # Сохранение отчета в DOCX и PDF
+    images = [acf_pacf_chart, forecast_chart]
+    report_text = "\n".join([f'Источник данных по ценам: {source}', 'Расшифровка и анализ:', response])
+    
+    save_to_docx(report_text, images, docx_result_file_path)
+    save_to_pdf(report_text, images, pdf_result_file_path)
     
     return result
