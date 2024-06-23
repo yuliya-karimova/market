@@ -17,7 +17,8 @@ from modules.ai import ask_ai
 import matplotlib
 matplotlib.use('Agg')
 
-json_result_file_path = 'data/predict_result.json'
+json_result_file_path = 'data/predict/predict_result.json'
+prices_file = 'data/metal_prices.xlsx'
 
 def extract_chart_data(period=None, start_date=None, end_date=None, output_file = ''):
     # Определение URL в зависимости от входных параметров
@@ -105,14 +106,12 @@ def predict_next_year(is_new = 'false'):
     today = datetime.today()
     # Форматирование даты в "dd-mm-yyyy"
     today_formatted = today.strftime("%d-%m-%Y")
-
-    file_name = 'data/metal_prices.xlsx'
     
-    if not os.path.isfile(file_name):
+    if not os.path.isfile(prices_file):
         # Если файла нет, создаем его с помощью extract_chart_data
-        extract_chart_data(start_date='01-01-2014', end_date=today_formatted, output_file=file_name)
+        extract_chart_data(start_date='01-01-2014', end_date=today_formatted, output_file=prices_file)
 
-    data = pd.read_excel(file_name, index_col=0, parse_dates=True)
+    data = pd.read_excel(prices_file, index_col=0, parse_dates=True)
     data.index = pd.to_datetime(data.index, format='%d.%m.%Y %H:%M:%S')
 
     # Проверка на стационарность ряда

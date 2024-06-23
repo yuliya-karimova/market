@@ -2,7 +2,7 @@ import docx
 import requests
 from modules.ai import ask_ai
 
-EXAMPLE_FILE_PATH = 'data/example.docx'
+EXAMPLE_FILE_PATH = 'data/company/example.docx'
 
 def extract_text_from_docx(file_path):
     doc = docx.Document(file_path)
@@ -24,7 +24,7 @@ def get_ready_report(company_name):
     for key, names in ready_reports.items():
         if company_name.lower() in (name.lower() for name in names):
             try:
-                with open(f'data/companies/{key}.txt', 'r') as file:
+                with open(f'data/company/{key}.txt', 'r') as file:
                     return file.read()
             except FileNotFoundError:
                     return error_text

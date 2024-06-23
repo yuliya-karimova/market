@@ -25,8 +25,8 @@ def plot_to_base64(fig):
     buf.close()
     return img_base64
 
-file_path = 'data/compare_ids_result.xlsx'
-json_result_file_path = 'data/compare_result.json'
+file_path = 'data/compare/compare_ids_result.xlsx'
+json_result_file_path = 'data/compare/compare_result.json'
 
 def compare_prices(is_new = 'false'):
     # Если is_new установлен в 'false', прочитать данные из JSON-файла
