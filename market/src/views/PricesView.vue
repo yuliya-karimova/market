@@ -8,21 +8,45 @@
         </div>
       </BaseButton>
     </RouterLink>
-    <h1 class="text-3xl sm:text-4xl text-primary-800 uppercase font-mont mb-12">Прогноз цен на металл</h1>
-    <div class="mb-6">
-      Мы собрали данные из открытых источников за 10 лет и обучили модель, которая предсказывает
-      цены на металлы. Вам будет представлен анализ с графиками и подробным описанием прогноза.
+    <h1 class="text-3xl sm:text-4xl text-primary-800 uppercase font-mont mb-12">
+      Прогноз цен на металл
+    </h1>
+    <div class="mb-6 flex flex-col gap-4">
+      <div>
+        Мы собрали данные из открытых источников за 10 лет и обучили модель, которая предсказывает
+        цены на металлы. Вам будет представлен анализ с графиками и подробным описанием прогноза.
+      </div>
+      <div>
+        Внизу для вашего удобства и экономии времени и ресурсов представлен прогноз, сформированный
+        во время предыдущего запроса.
+      </div>
+      <div>
+        Если вы хотите получить новый прогноз, нажмите на кнопку "Получить новый прогноз".
+        Пожалуйста, обратите внимание, что при создании обновленного прогноза потребуется
+        дополнительное время для сбора данных, их обработки с помощью модели машинного обучения и
+        получения результатов.
+      </div>
     </div>
-    <BaseButton theme="secondary" @click="getPrediction"> Получить прогноз </BaseButton>
+    <div class="flex gap-4 flex-wrap">
+      <!-- <BaseButton theme="secondary" @click="() => getPrediction()"> Получить готовый прогноз </BaseButton> -->
+      <BaseButton theme="secondary" @click="() => getPrediction(true)">
+        Сгенерировать новый прогноз
+      </BaseButton>
+    </div>
     <div v-if="loading" class="flex justify-center py-12">
       <BaseSpinner />
     </div>
     <div v-if="error">{{ error }}</div>
-    <div v-if="reportStore.prediction" class="px-5 sm:px-10 pt-5 sm:pt-10 pb-5 bg-white shadow-sm rounded-xl mt-12">
+    <div
+      v-if="reportStore.prediction"
+      class="px-5 sm:px-10 pt-5 sm:pt-10 pb-5 bg-white shadow-sm rounded-xl mt-16"
+    >
       <h2 class="font-bold text-3xl mb-2">Прогноз цен на металл</h2>
       <div class="mb-12">
         Источник данных по ценам:
-        <BaseLink :href="reportStore.prediction.link" target="_blank" class="!block break-words">{{ reportStore.prediction.link }}</BaseLink>
+        <BaseLink :href="reportStore.prediction.link" target="_blank" class="!block break-words">{{
+          reportStore.prediction.link
+        }}</BaseLink>
       </div>
       <h2 class="text-center">ACF and PACF Chart</h2>
       <img
@@ -40,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useReportStore } from '@/stores/report'
 import BaseButton from '@/components/base/button/BaseButton.vue'
 import BaseIcon from '@/components/base/icon/BaseIcon.vue'
@@ -53,16 +77,20 @@ const loading = ref<boolean>(false)
 
 const reportStore = useReportStore()
 
-const getPrediction = async () => {
+const getPrediction = async (isNew = false) => {
   loading.value = true
   error.value = ''
 
   try {
-    await reportStore.getNextYearPrediction()
+    await reportStore.getNextYearPrediction(isNew)
   } catch (err: any) {
     error.value = err.message || 'An error occurred'
   } finally {
     loading.value = false
   }
 }
+
+onMounted(async () => {
+  await getPrediction(false)
+})
 </script>

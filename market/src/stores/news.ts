@@ -39,13 +39,13 @@ export const useNewsStore = defineStore('news', {
         return err.response?.data?.error || 'An error occurred'
       }
     },
-    async fetchAnalytic() {
-      if (this.analytic.length) {
-        return
-      }
-
+    async fetchAnalytic(isNew = false) {
       try {
-        const response = await axios.get(`${apiBaseUrl}/api/collect-analytics`)
+        const response = await axios.get(`${apiBaseUrl}/api/collect-analytics`, {
+          params: {
+            is_new: isNew
+          }
+        })
         this.analytic = response.data.data
       } catch (err: any) {
         return err.response?.data?.error || 'An error occurred'

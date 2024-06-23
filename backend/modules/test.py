@@ -1,11 +1,7 @@
 import docx
 import requests
-from modules.ai import ask_ai
+from ai import ask_ai, Payload
 from bs4 import BeautifulSoup
-import json
-import os
-
-json_result_file_path = 'data/agregator_result.json'
 
 def check_gostmetal():
     url = "https://gostmetal.ru/dinamika/#t-2-24"
@@ -54,30 +50,22 @@ def check_gostmetal():
         }
 
         res = ask_ai(request)
+        print('res: ', res)
+        
         return res
     else:
         print("Основной контент не найден")
 
 
-def collect_analytics(is_new = 'false'):
-    # Если is_new установлен в 'false', прочитать данные из JSON-файла
-    if is_new == 'false' and os.path.exists(json_result_file_path):
-        with open(json_result_file_path, 'r', encoding='utf-8') as f:
-            json_data = json.load(f)
-            return json_data.get("data", [])
-        
+def collect_analytics():
     result = []
-
     gostmetal_analytics = check_gostmetal()
-
     result.append({
         "link": "https://gostmetal.ru/dinamika/#t-2-24",
         "source": "https://gostmetal.ru",
         "content": gostmetal_analytics,
     })
-    
-    # Сохранение результата в JSON-файл
-    with open(json_result_file_path, 'w', encoding='utf-8') as f:
-        json.dump({"data": result}, f, ensure_ascii=False, indent=4)
 
     return result
+
+collect_analytics()

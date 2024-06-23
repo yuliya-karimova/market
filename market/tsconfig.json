@@ -13,7 +13,9 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "skipLibCheck": true // Добавьте это, чтобы пропустить проверку типов в библиотеке
+    "skipLibCheck": true, // Добавьте это, чтобы пропустить проверку типов в библиотеке
+    "outDir": "./dist", // Добавьте эту строку
+    "rootDir": "./src"  // Добавьте эту строку
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/vee-validate-setup.js"]
 }

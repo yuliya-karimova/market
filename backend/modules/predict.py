@@ -17,6 +17,8 @@ from modules.ai import ask_ai
 import matplotlib
 matplotlib.use('Agg')
 
+json_result_file_path = 'data/predict_result.json'
+
 def extract_chart_data(period=None, start_date=None, end_date=None, output_file = ''):
     # Определение URL в зависимости от входных параметров
     base_url = 'https://www.metalinfo.ru/ru/metalmarket/statistics'
@@ -93,14 +95,19 @@ def plot_to_base64(fig):
     buf.close()
     return img_base64
 
-def predict_next_year():
+def predict_next_year(is_new = 'false'):
+    # Если is_new установлен в 'false', прочитать данные из JSON-файла
+    if is_new == 'false' and os.path.exists(json_result_file_path):
+        with open(json_result_file_path, 'r', encoding='utf-8') as f:
+            json_data = json.load(f)
+            return json_data.get("data", [])
+        
     today = datetime.today()
     # Форматирование даты в "dd-mm-yyyy"
     today_formatted = today.strftime("%d-%m-%Y")
 
     file_name = 'data/metal_prices.xlsx'
     
-    # extract_chart_data(start_date='01-01-2014', end_date=today_formatted, output_file=file_name)
     if not os.path.isfile(file_name):
         # Если файла нет, создаем его с помощью extract_chart_data
         extract_chart_data(start_date='01-01-2014', end_date=today_formatted, output_file=file_name)
@@ -177,10 +184,16 @@ def predict_next_year():
     }
 
     response = ask_ai(request)
-
-    return {
+    
+    result = {
         "link": 'https://www.metalinfo.ru/ru/metalmarket/statistics',
         "report": response,
         "acf_pacf_chart": acf_pacf_base64,
         "forecast_chart": forecast_base64
     }
+    
+    # Сохранение результата в JSON-файл
+    with open(json_result_file_path, 'w', encoding='utf-8') as f:
+        json.dump({"data": result}, f, ensure_ascii=False, indent=4)
+    
+    return result

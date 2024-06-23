@@ -13,7 +13,7 @@ from modules.compare_prices import compare_prices
 
 app = Flask(__name__)
 app.secret_key = 'karimova'
-CORS(app, supports_credentials=True, origins=["http://localhost:5174"])
+CORS(app, supports_credentials=True, origins=["http://localhost:5174", "http://localhost:3000"])
 
 # Конфигурация базы данных
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
@@ -56,7 +56,7 @@ def register():
         "topics": json.loads(new_user.topics),
         "token": token
     })
-    response.set_cookie('token', token, httponly=True, samesite='None', secure=True)
+    response.set_cookie('token', token, httponly=True)
     return response
 
 @app.route('/api/login', methods=['POST'])
@@ -77,7 +77,7 @@ def login():
             "topics": json.loads(user.topics or '[]'),
             "token": token
         })
-        response.set_cookie('token', token, httponly=True, samesite='None', secure=True)
+        response.set_cookie('token', token, httponly=True)
         return response
     else:
         return jsonify({"message": "Неправильный логин или пароль"}), 401
@@ -127,7 +127,7 @@ def update_profile():
 @app.route('/api/logout', methods=['POST'])
 def logout():
     response = jsonify({"message": "Пользователь успешно вышел из системы"})
-    response.set_cookie('token', '', expires=0, samesite='None', secure=True, httponly=True)
+    response.set_cookie('token', '', expires=0, httponly=True)
     return response
 
 @app.route('/api/check-company', methods=['GET'])
@@ -153,16 +153,20 @@ def read_analytic_news_endpoint():
     
 @app.route('/api/collect-analytics', methods=['GET'])
 def collect_analytics_endpoint():
+    is_new = request.args.get('is_new')
+
     try:
-        res = collect_analytics()
+        res = collect_analytics(is_new)
         return jsonify({"data": res})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
 @app.route('/api/predict-next-year', methods=['GET'])
 def predict_next_year_endpoint():
+    is_new = request.args.get('is_new')
+
     try:
-        res = predict_next_year()
+        res = predict_next_year(is_new)
         return jsonify({"data": res})
     except Exception as e:
         print('e: ', e)

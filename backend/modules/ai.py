@@ -1,5 +1,5 @@
 import requests
-from typing import Optional, List, Dict, Any
+from typing import Optional, List
 from pydantic import BaseModel
 
 VPS_IP = "176.222.52.84"
@@ -9,13 +9,13 @@ class GPT_NAMES:
     GPT_4 = "gpt-4" # - 10$
     GPT_4_OMNI = "gpt-4o" # - 5$
 
-
 class Message(BaseModel):
     role: str
     content: str
-
+    
+# Payload example
 class Payload(BaseModel):
-    model: str
+    model: Optional[str] = None
     messages: List[Message]
     max_tokens: Optional[int] = 3000
     temperature: Optional[float] = None
@@ -24,14 +24,14 @@ class Payload(BaseModel):
     frequency_penalty: Optional[float] = None
     presence_penalty: Optional[float] = None
 
-def ask_ai(payload: Payload):
-    payload.model = payload.model or GPT_NAMES.GPT_3_5
+def ask_ai(payload: dict):
+    payload.setdefault('model', GPT_NAMES.GPT_3_5)
 
     res = requests.post(
         f"http://{VPS_IP}:8000/chat_api",
         json=payload
     )
-    print('res: ', res)
+    
     if res.status_code == 200:
         response = res.json()["response"]
         return response

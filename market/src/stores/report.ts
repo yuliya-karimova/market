@@ -23,7 +23,7 @@ interface ReportState {
 export const useReportStore = defineStore('report', {
   state: (): ReportState => ({
     prediction: null,
-    compareResult: [],
+    compareResult: []
   }),
   actions: {
     async checkCompany(company: string, isNew = false): Promise<string> {
@@ -39,13 +39,17 @@ export const useReportStore = defineStore('report', {
         return err.response?.data?.error || 'Не удалось получить данные'
       }
     },
-    async getNextYearPrediction() {
+    async getNextYearPrediction(isNew = false) {
       if (this.prediction) {
         return
       }
 
       try {
-        const response = await axios.get(`${apiBaseUrl}/api/predict-next-year`)
+        const response = await axios.get(`${apiBaseUrl}/api/predict-next-year`, {
+          params: {
+            is_new: isNew
+          }
+        })
         this.prediction = response.data.data
       } catch (err: any) {
         return err.response?.data?.error || 'Не удалось получить данные'

@@ -2,8 +2,6 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-// import vueJsx from '@vitejs/plugin-vue-jsx'
-// import VueDevTools from 'vite-plugin-vue-devtools'
 import Components from 'unplugin-vue-components/vite'
 import { VueUseComponentsResolver } from 'unplugin-vue-components/resolvers'
 
@@ -11,11 +9,9 @@ import { VueUseComponentsResolver } from 'unplugin-vue-components/resolvers'
 export default defineConfig({
   plugins: [
     vue(),
-    // vueJsx(),
-    // VueDevTools(),
     Components({
       resolvers: [VueUseComponentsResolver()],
-      dts: true
+      dts: true         
     })
   ],
   resolve: {
@@ -25,6 +21,11 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
+    outDir: 'dist', // Путь к директории, куда будет производиться сборка
+    emptyOutDir: true // Очистка директории перед сборкой
+  },
+  server: {
+    port: 3000
   }
 })
 

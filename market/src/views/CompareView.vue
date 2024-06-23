@@ -19,19 +19,22 @@
         формируется отчет, который содержит актуальные данные.
       </div>
       <div>
-        Внизу представлен отчет, сформированный во время предыдущего запроса. Если вы хотите
-        получить новый отчет, нажмите на кнопку "Сгенерировать новый отчет". Пожалуйста, обратите
-        внимание, что создание обновленного отчета займет некоторое время для обработки данных и
-        генерации.
+        Внизу для вашего удобства и экономии времени и ресурсов представлен отчет, сформированный во
+        время предыдущего запроса.
+      </div>
+      <div>
+        Если вы хотите получить новый отчет, нажмите на кнопку "Сгенерировать новый отчет".
+        Пожалуйста, обратите внимание, что создание обновленного отчета займет некоторое время для
+        обработки данных и генерации.
       </div>
     </div>
     <div class="flex gap-4 flex-wrap">
+      <!-- <BaseButton theme="secondary" @click="() => getPrediction(false)">
+        Получить готовый отчет
+      </BaseButton> -->
       <BaseButton theme="secondary" @click="() => getPrediction(true)">
         Сгенерировать новый отчет
       </BaseButton>
-      <!-- <BaseButton theme="secondary" @click="() => getPrediction(false)">
-        Получить готовый
-      </BaseButton> -->
     </div>
     <div v-if="loading" class="flex justify-center py-12">
       <BaseSpinner />
@@ -39,7 +42,7 @@
     <div v-if="error">{{ error }}</div>
     <div
       v-if="reportStore.compareResult.length"
-      class="px-5 sm:px-10 pt-5 sm:pt-10 pb-5 bg-white shadow-sm rounded-xl mt-12"
+      class="px-5 sm:px-10 pt-5 sm:pt-10 pb-5 bg-white shadow-sm rounded-xl mt-16"
     >
       <div v-for="(res, index) in reportStore.compareResult" :key="index">
         <img v-if="res.pic" :src="'data:image/png;base64,' + res.pic" alt="pic" />

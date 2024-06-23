@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  web:
+  backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -11,3 +11,10 @@ services:
       - ./backend:/app
     environment:
       - PYTHONUNBUFFERED=1
+
+  frontend:
+    build:
+      context: ./market
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
