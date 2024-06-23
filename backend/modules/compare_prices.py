@@ -11,7 +11,7 @@ import seaborn as sns
 import os
 import base64
 from io import BytesIO
-from ai import ask_ai
+from modules.ai import ask_ai
 import json
 
 import matplotlib
@@ -219,7 +219,6 @@ def compare_prices(is_new = 'false'):
     report_text = "\n".join(report)
 
     openai_request_2 = {
-        "model": "gpt-4o",
         "messages": [
             {"role": "system", "content": "Перепиши результаты финансового анализа, используя академическую стилистику и сложные экономические термины. Пиши подробно, не меняй цифры. Применяй рассуждения и аналитические выводы. Описание должно быть выполнено на уровне лучших экономических журналов. Пиши на русском языке. Оформляй с помошью макдауна. "},
             {"role": "user", "content": report_text}
@@ -351,7 +350,6 @@ def compare_prices(is_new = 'false'):
     report_text = "\n".join(report)
 
     openai_request_4 = {
-        "model": "gpt-4o",
         "messages": [
             {"role": "system", "content": "Перепиши результаты финансового анализа, используя академическую стилистику и сложные экономические термины. Пиши подробно, не меняй цифры. Применяй рассуждения и аналитические выводы. Описание должно быть выполнено на уровне лучших экономических журналов. Пиши на русском языке. Оформляй с помошью макдауна."},
             {"role": "user", "content": report_text}
@@ -452,7 +450,6 @@ def compare_prices(is_new = 'false'):
     report_text = "\n".join(report)
 
     openai_request_5 = {
-        "model": "gpt-4o",
         "messages": [
             {"role": "system", "content": "Перепиши результаты анализа, используя академическую стилистику и сложные экономические термины. Пиши подробно, не меняй цифры. Применяй рассуждения и аналитические выводы. Описание должно быть выполнено на уровне лучших экономических журналов. Пиши на русском языке. Оформляй с помошью макдауна."},
             {"role": "user", "content": report_text}

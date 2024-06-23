@@ -28,9 +28,9 @@ export const useAuthStore = defineStore('auth', {
         this.user = response.data.username
         this.topics = response.data.topics
         this.error = ''
-      } catch (err) {
+      } catch (err: any) {
         console.error(err) // Логирование
-        this.error = 'Invalid credentials'
+        this.error = err.response?.data?.message || "Не удалось авторизоваться"
       }
     },
     async register(username: string, password: string) {
@@ -45,7 +45,7 @@ export const useAuthStore = defineStore('auth', {
         this.registerError = ''
       } catch (err: any) {
         console.error(err) // Логирование
-        this.registerError = err.response?.data?.message || 'Registration error'
+        this.registerError = err.response?.data?.message || 'Не удалось зарегистрироваться'
       }
     },
     async updateTopics(topics: string[]) {

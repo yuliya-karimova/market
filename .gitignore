@@ -29,3 +29,5 @@ graphs
 *.sln
 *.sw?
 openai-api-request-example.ipynb
+
+__pycache__

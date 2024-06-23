@@ -1,6 +1,6 @@
 import docx
 import requests
-from ai import ask_ai
+from modules.ai import ask_ai
 
 EXAMPLE_FILE_PATH = 'data/example.docx'
 
@@ -58,7 +58,6 @@ def check_company(company_name, is_new):
     """
 
     request = {
-        "model": "gpt-4o",
         "messages": [
                 {"role": "user", "content": prompt}
             ],

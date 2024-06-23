@@ -12,7 +12,7 @@ from datetime import datetime
 import os
 import base64
 from io import BytesIO
-from ai import ask_ai
+from modules.ai import ask_ai
 
 import matplotlib
 matplotlib.use('Agg')
@@ -169,7 +169,6 @@ def predict_next_year():
     report_text = "\n".join(report)
 
     request = {
-        "model": "gpt-4o",
         "messages": [
             {"role": "system", "content": "Перепиши результаты анализа, используя академическую стилистику и сложные экономические термины. Пиши подробно, не меняй цифры. Применяй рассуждения и аналитические выводы. Описание должно быть выполнено на уровне лучших экономических журналов. Пиши на русском языке. Используй маркдаун для оформления."},
             {"role": "user", "content": report_text}

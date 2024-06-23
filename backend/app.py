@@ -5,15 +5,15 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import datetime
 import json
-from company import check_company
-from news import read_analytic_news
-from agrerator import collect_analytics
-from predict import predict_next_year
-from compare_prices import compare_prices
+from modules.company import check_company
+from modules.news import read_analytic_news
+from modules.agrerator import collect_analytics
+from modules.predict import predict_next_year
+from modules.compare_prices import compare_prices
 
 app = Flask(__name__)
 app.secret_key = 'karimova'
-CORS(app, supports_credentials=True, origins=["http://localhost:5173", "http://localhost:3000", "http://frontend:3000"])
+CORS(app, supports_credentials=True, origins=["http://localhost:5174"])
 
 # Конфигурация базы данных
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
@@ -39,7 +39,7 @@ def register():
     password = data.get('password')
     
     if User.query.filter_by(username=username).first():
-        return jsonify({"message": "Username already exists"}), 400
+        return jsonify({"message": "Такой пользователь уже существует"}), 400
     
     password_hash = generate_password_hash(password)
     new_user = User(username=username, password_hash=password_hash, topics=json.dumps([]))
@@ -51,7 +51,7 @@ def register():
         'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)
     }, app.secret_key, algorithm="HS256")
     response = jsonify({
-        "message": "User registered successfully",
+        "message": "Пользователь успешно зарегистрирован",
         "username": new_user.username,
         "topics": json.loads(new_user.topics),
         "token": token
@@ -72,7 +72,7 @@ def login():
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)
         }, app.secret_key, algorithm="HS256")
         response = jsonify({
-            "message": "Login successful",
+            "message": "Пользователь успешно авторизован",
             "username": user.username,
             "topics": json.loads(user.topics or '[]'),
             "token": token
@@ -80,7 +80,7 @@ def login():
         response.set_cookie('token', token, httponly=True, samesite='None', secure=True)
         return response
     else:
-        return jsonify({"message": "Invalid credentials"}), 401
+        return jsonify({"message": "Неправильный логин или пароль"}), 401
 
 @app.route('/api/profile', methods=['GET'])
 def profile():
@@ -119,14 +119,14 @@ def update_profile():
     user.topics = json.dumps(data.get('topics', []))
     db.session.commit()
     return jsonify({
-        "message": "Profile updated",
+        "message": "Профиль обновлен",
         "username": user.username,
         "topics": json.loads(user.topics)
     })
 
 @app.route('/api/logout', methods=['POST'])
 def logout():
-    response = jsonify({"message": "Logout successful"})
+    response = jsonify({"message": "Пользователь успешно вышел из системы"})
     response.set_cookie('token', '', expires=0, samesite='None', secure=True, httponly=True)
     return response
 

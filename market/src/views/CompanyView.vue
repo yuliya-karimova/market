@@ -51,11 +51,11 @@
       </div>
       <div class="mt-12 flex gap-4 flex-wrap">
         <template v-if="isUseCompanySelect">
-          <BaseButton theme="primary" @click="() => getCompanyReport(true)">
-            Сгенерировать новый отчет
-          </BaseButton>
           <BaseButton theme="secondary" @click="() => getCompanyReport(false)">
             Получить готовый отчет
+          </BaseButton>
+          <BaseButton theme="primary" @click="() => getCompanyReport(true)">
+            Сгенерировать новый отчет
           </BaseButton>
         </template>
         <BaseButton v-else theme="secondary" @click="() => getCompanyReport(true)"

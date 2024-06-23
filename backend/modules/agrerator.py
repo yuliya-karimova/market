@@ -1,6 +1,6 @@
 import docx
 import requests
-from ai import ask_ai
+from modules.ai import ask_ai
 from bs4 import BeautifulSoup
 
 def check_gostmetal():
@@ -43,7 +43,6 @@ def check_gostmetal():
         prompt = f"Новость взята с сайта: {url}\n\n{shortened_report_text}\n\nКратко перескажите новость с акцентом на полезность для продавца металлопроката. Помогите ему принять бизнес-решения на основе данной информации."
 
         request = {
-            "model": "gpt-4o",
             "messages": [
                     {"role": "system", "content": system_message},
                     {"role": "user", "content": prompt}

@@ -4,9 +4,11 @@ from pydantic import BaseModel
 
 VPS_IP = "176.222.52.84"
 
-# gpt-3.5-turbo - 0.5$
-# gpt-4 - 10$
-# gpt-4o - 5$
+class GPT_NAMES:
+    GPT_3_5 = "gpt-3.5-turbo" # - 0.5$
+    GPT_4 = "gpt-4" # - 10$
+    GPT_4_OMNI = "gpt-4o" # - 5$
+
 
 class Message(BaseModel):
     role: str
@@ -23,6 +25,8 @@ class Payload(BaseModel):
     presence_penalty: Optional[float] = None
 
 def ask_ai(payload: Payload):
+    payload.model = payload.model or GPT_NAMES.GPT_3_5
+
     res = requests.post(
         f"http://{VPS_IP}:8000/chat_api",
         json=payload
