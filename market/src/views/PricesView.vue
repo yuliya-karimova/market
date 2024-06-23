@@ -1,5 +1,5 @@
 <template>
-  <div class="py-12 w-full">
+  <div class="py-6 sm:py-12 w-full">
     <RouterLink to="/analytics">
       <BaseButton look="link" theme="secondary" class="!p-0 max-w-min">
         <div class="flex gap-2 items-center font-normal">
@@ -8,7 +8,7 @@
         </div>
       </BaseButton>
     </RouterLink>
-    <h1 class="text-4xl text-primary-800 uppercase font-mont mb-12">Прогноз цен на металл</h1>
+    <h1 class="text-3xl sm:text-4xl text-primary-800 uppercase font-mont mb-12">Прогноз цен на металл</h1>
     <div class="mb-6">
       Мы собрали данные из открытых источников за 10 лет и обучили модель, которая предсказывает
       цены на металлы. Вам будет представлен анализ с графиками и подробным описанием прогноза.
@@ -18,11 +18,11 @@
       <BaseSpinner />
     </div>
     <div v-if="error">{{ error }}</div>
-    <div v-if="reportStore.prediction" class="px-10 pt-10 pb-5 bg-white shadow-sm rounded-xl mt-12">
+    <div v-if="reportStore.prediction" class="px-5 sm:px-10 pt-5 sm:pt-10 pb-5 bg-white shadow-sm rounded-xl mt-12">
       <h2 class="font-bold text-3xl mb-2">Прогноз цен на металл</h2>
       <div class="mb-12">
         Источник данных по ценам:
-        <BaseLink :href="reportStore.prediction.link" target="_blank">{{ reportStore.prediction.link }}</BaseLink>
+        <BaseLink :href="reportStore.prediction.link" target="_blank" class="!block break-words">{{ reportStore.prediction.link }}</BaseLink>
       </div>
       <h2 class="text-center">ACF and PACF Chart</h2>
       <img

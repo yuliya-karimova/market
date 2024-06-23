@@ -228,12 +228,10 @@ def compare_prices(is_new = 'false'):
     }
 
     response_2 = ask_ai(openai_request_2)
-    # response_2 = report_text
 
     compare_response.append({
         "text": response_2
     })
-
 
 
 
@@ -362,7 +360,6 @@ def compare_prices(is_new = 'false'):
     }
 
     response_4 = ask_ai(openai_request_4)
-    # response_4 = report_text
 
     compare_response.append({
         "text": response_4,
@@ -464,7 +461,6 @@ def compare_prices(is_new = 'false'):
     }
 
     response_5 = ask_ai(openai_request_5)
-    # response_5 = report_text
 
     compare_response.append({
         "text": response_5,

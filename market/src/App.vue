@@ -1,7 +1,34 @@
 <template>
-  <header class="sticky top-0 flex justify-center py-4 px-8 bg-white font-mont shadow-sm z-10">
+  <header
+    class="sticky top-0 flex justify-center items-center h-16 px-4 lg:px-8 bg-white font-mont shadow-sm z-10"
+  >
     <nav class="max-w-screen-xl flex gap-6 items-center justify-between w-full">
-      <div class="flex gap-6 items-center text-md">
+      <button
+        class="sm:hidden flex items-center justify-center h-10 w-6 text-gray-500 rounded-xl hover:text-gray-900 z-10"
+        @click="isMobileMenuVisible = !isMobileMenuVisible"
+      >
+        <BaseIcon name="outline_menu" size="none" title="Open Menu" class="h-6 w-6" />
+      </button>
+      <div
+        v-if="isMobileMenuVisible"
+        class="sm:hidden fixed left-0 p-4 top-16 bg-white shadow-sm flex flex-col gap-6 text-md min-w-40"
+      >
+        <RouterLink
+          v-for="item in menu"
+          :key="item.to"
+          :to="item.to"
+          v-slot="{ isActive }"
+          @click="isMobileMenuVisible = false"
+        >
+          <span
+            class="hover:text-orange-500 transition duration-150"
+            :class="(isActive || isRouteActive(item.to)) && 'text-orange-500'"
+          >
+            {{ item.title }}
+          </span>
+        </RouterLink>
+      </div>
+      <div class="max-sm:hidden flex gap-6 items-center text-md">
         <RouterLink v-for="item in menu" :key="item.to" :to="item.to" v-slot="{ isActive }">
           <span
             class="hover:text-orange-500 transition duration-150"
@@ -18,7 +45,7 @@
     </nav>
   </header>
 
-  <main class="flex justify-center flex-1 py-4 px-8 bg-gray-100">
+  <main class="flex justify-center flex-1 py-4 px-4 lg:px-8 bg-gray-100">
     <div class="max-w-screen-xl w-full">
       <RouterView />
     </div>
@@ -26,7 +53,7 @@
 
   <LoginModal :is-open="isLoginModalOpen" @close="isLoginModalOpen = false" />
 
-  <footer class="flex justify-center p-8 bg-gray-100">
+  <footer class="flex justify-center px-4 lg:px-8 py-8 bg-gray-100">
     <div class="max-w-screen-xl w-full">
       <img alt="AI Sisters" class="w-28 h-auto mx-auto" src="/logo_dark.svg" />
     </div>
@@ -64,18 +91,20 @@ import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import LoginModal from '@/components/LoginModal.vue'
 import BaseButton from '@/components/base/button/BaseButton.vue'
+import BaseIcon from '@/components/base/icon/BaseIcon.vue'
 
 const isLoginModalOpen = ref(false)
 const authStore = useAuthStore()
 const route = useRoute()
 
 const scrollHeight = ref(0)
+const isMobileMenuVisible = ref(false)
 
 const menu = [
   { title: 'Главная', to: '/' },
   { title: 'Аналитика', to: '/analytics' },
   { title: 'Новости', to: '/news' },
-  { title: 'FAQ', to: '/faq' }
+  // { title: 'FAQ', to: '/faq' }
 ]
 
 const isRouteActive = (path: string) => {

@@ -1,8 +1,8 @@
 <template>
-  <div class="py-12 w-full">
-    <h1 class="text-4xl text-primary-800 uppercase font-mont mb-12">Аналитика и прогнозы</h1>
+  <div class="py-6 sm:py-12 w-full">
+    <h1 class="text-3xl sm:text-4xl text-primary-800 uppercase font-mont mb-12">Аналитика и прогнозы</h1>
     <div class="text-xl font-bold mb-4">Выберите вид анализа рынка</div>
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <div
         v-for="report in reportList"
         :key="report.id"

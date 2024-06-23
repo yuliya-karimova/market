@@ -132,6 +132,7 @@ const handleSubmit = async () => {
 const handleRegister = async () => {
   await authStore.register(registerUsername.value, registerPassword.value)
   if (!authStore.registerError) {
+    close()
     showLogin.value = true
     registerUsername.value = ''
     registerPassword.value = ''

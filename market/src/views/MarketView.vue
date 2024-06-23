@@ -1,5 +1,5 @@
 <template>
-  <div class="py-12 w-full">
+  <div class="py-6 sm:py-12 w-full">
     <RouterLink to="/analytics">
       <BaseButton look="link" theme="secondary" class="!p-0 max-w-min">
         <div class="flex gap-2 items-center font-normal">
@@ -8,7 +8,7 @@
         </div>
       </BaseButton>
     </RouterLink>
-    <h1 class="text-4xl text-primary-800 uppercase font-mont mb-12">Анализ рынка металла</h1>
+    <h1 class="text-3xl sm:text-4xl text-primary-800 uppercase font-mont mb-12">Анализ рынка металла</h1>
     <div v-if="loading" class="flex justify-center py-12">
       <BaseSpinner />
     </div>

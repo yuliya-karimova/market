@@ -8,7 +8,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AboutBlock: typeof import('./src/components/AboutBlock.vue')['default']
-    AnalyticsPricesOld: typeof import('./src/components/analytics/AnalyticsPricesOld.vue')['default']
     BaseButton: typeof import('./src/components/base/button/BaseButton.vue')['default']
     BaseCheckbox: typeof import('./src/components/base/BaseCheckbox.vue')['default']
     BaseCheckboxGroup: typeof import('./src/components/base/BaseCheckboxGroup.vue')['default']

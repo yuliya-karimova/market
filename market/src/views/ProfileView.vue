@@ -1,7 +1,7 @@
 <template>
-  <div class="py-12 flex flex-col items-center">
+  <div class="py-6 sm:py-12 flex flex-col items-center">
     <div class="w-full max-w-3xl">
-      <h1 class="text-4xl text-primary-800 uppercase font-mont mb-12">Настройки профиля</h1>
+      <h1 class="text-3xl sm:text-4xl text-primary-800 uppercase font-mont mb-12">Настройки профиля</h1>
       <form @submit.prevent="handleSave" class="mb-2 bg-white shadow-sm rounded-xl px-8 py-8">
         <BaseCheckboxGroup
           v-model="authStore.topics"

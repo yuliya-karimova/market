@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col gap-10 py-12 w-full">
-    <h1 class="text-4xl text-primary-800 uppercase font-mont">Вопросы и ответы</h1>
+  <div class="flex flex-col gap-10 py-6 sm:py-12 w-full">
+    <h1 class="text-3xl sm:text-4xl text-primary-800 uppercase font-mont">Вопросы и ответы</h1>
     <div class="flex flex-col gap-8 font-light max-w-2xl">
       <div>
         <div class="text-xl text-primary-800 mb-2 font-bold">Как мы анализируем рынок стали?</div>

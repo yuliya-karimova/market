@@ -1,5 +1,5 @@
 <template>
-  <div class="py-12 w-full">
+  <div class="py-6 sm:py-12 w-full">
     <RouterLink to="/analytics">
       <BaseButton look="link" theme="secondary" class="!p-0 max-w-min">
         <div class="flex gap-2 items-center font-normal">
@@ -8,7 +8,7 @@
         </div>
       </BaseButton>
     </RouterLink>
-    <h1 class="text-4xl text-primary-800 uppercase font-mont mb-12">Отчет по компании</h1>
+    <h1 class="text-3xl sm:text-4xl text-primary-800 uppercase font-mont mb-12">Отчет по компании</h1>
     <form class="w-full mb-12 max-w-2xl">
       <BaseSelect
         v-if="isUseCompanySelect"
@@ -49,7 +49,7 @@
           <div>Вернуться к списку компаний</div>
         </div>
       </div>
-      <div class="mt-12 flex gap-4">
+      <div class="mt-12 flex gap-4 flex-wrap">
         <template v-if="isUseCompanySelect">
           <BaseButton theme="primary" @click="() => getCompanyReport(true)">
             Сгенерировать новый отчет
@@ -67,7 +67,7 @@
       <BaseSpinner />
     </div>
     <div v-if="error">{{ error }}</div>
-    <div v-if="report" class="px-10 py-5 bg-white shadow-sm rounded-xl">
+    <div v-if="report" class="px-5 sm:px-10 py-5 bg-white shadow-sm rounded-xl">
       <MarkdownBlock :content="report" />
     </div>
   </div>

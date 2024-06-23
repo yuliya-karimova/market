@@ -140,4 +140,35 @@ const compiledMarkdown = computed(() =>
   border-top: 1px solid #dfe2e5;
   margin: 1em 0;
 }
+
+/* Media query for screens up to 640px */
+@media (max-width: 640px) {
+  .markdown-body h1 {
+    font-size: 1.5em;
+  }
+
+  .markdown-body h2 {
+    font-size: 1.25em;
+  }
+
+  .markdown-body h3 {
+    font-size: 1em;
+  }
+
+  .markdown-body h4 {
+    font-size: 0.875em;
+  }
+
+  .markdown-body h5 {
+    font-size: 0.75em;
+  }
+
+  .markdown-body h6 {
+    font-size: 0.625em;
+  }
+
+  table {
+    font-size: 0.9em;
+  }
+}
 </style>
