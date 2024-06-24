@@ -99,7 +99,7 @@
 <script setup lang="ts">
 import type { RuleExpression } from 'vee-validate'
 import { useSimpleInput } from './use-simple-input'
-import { computed, getCurrentInstance, nextTick, ref, useSlots } from 'vue'
+import { Ref, computed, getCurrentInstance, nextTick, ref, useSlots } from 'vue'
 
 const shadow = {
   none: 'shadow-none',

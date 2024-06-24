@@ -79,6 +79,20 @@ export const useReportStore = defineStore('report', {
         return err.response?.data?.error || 'Не удалось получить данные'
       }
     },
+    async getPrices(period?: string, startDate?: string, endDate?: string) {
+      try {
+        const response = await axios.get(`${apiBaseUrl}/api/get-prices`, {
+          params: {
+            period: period,
+            start_date: startDate,
+            end_date: endDate,
+          }
+        })
+        return response.data.data
+      } catch (err: any) {
+        return err.response?.data?.error || 'Не удалось получить данные'
+      }
+    },
     async talkToAi(text: string) {
       try {
         const response = await axios.post(

@@ -8,7 +8,7 @@ import json
 from modules.company import check_company
 from modules.news import read_analytic_news
 from modules.agrerator import collect_analytics
-from modules.predict import predict_next_year
+from modules.predict import predict_next_year, get_prices
 from modules.compare_prices import compare_prices
 from modules.topics import get_news_by_topics
 from modules.talk import talk_to_ai
@@ -180,6 +180,19 @@ def predict_next_year_endpoint():
 
     try:
         res = predict_next_year(is_new)
+        return jsonify({"data": res})
+    except Exception as e:
+        print('e: ', e)
+        return jsonify({"error": str(e)}), 300
+    
+@app.route('/api/get-prices', methods=['GET'])
+def get_prices_endpoint():
+    period = request.args.get('period')
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+
+    try:
+        res = get_prices(period, start_date, end_date)
         return jsonify({"data": res})
     except Exception as e:
         print('e: ', e)

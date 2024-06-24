@@ -3,6 +3,8 @@ import CompanyView from '@/views/CompanyView.vue'
 import PricesView from '@/views/PricesView.vue'
 import MarketView from '@/views/MarketView.vue'
 import CompareView from '@/views/CompareView.vue'
+import PricesGraphView from '@/views/PricesGraphView.vue'
+import PricesPredictView from '@/views/PricesPredictView.vue'
 import TalkView from '@/views/TalkView.vue'
 
 const router = createRouter({
@@ -42,6 +44,16 @@ const router = createRouter({
       path: '/analytics/prices',
       name: 'prices',
       component: PricesView
+    },
+    {
+      path: '/analytics/prices-predict',
+      name: 'prices-predict',
+      component: PricesPredictView
+    },
+    {
+      path: '/analytics/prices-graph',
+      name: 'prices-graph',
+      component: PricesGraphView
     },
     {
       path: '/news',

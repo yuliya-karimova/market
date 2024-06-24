@@ -10,7 +10,7 @@
         @click="report.action"
       >
         <div class="flex gap-2 mb-2">
-          <BaseIcon v-if="report.icon" :name="report.icon" size="sm" />
+          <BaseIcon v-if="report.icon" :name="report.icon" size="sm" class="shrink-0" />
           <div class="font-bold text-lg leading-5">{{ report.title }}</div>
         </div>
         <div>{{ report.description }}</div>
@@ -28,7 +28,7 @@ const router = useRouter()
 const reportList = [
   {
     title: 'Анализ цен',
-    id: 'market',
+    id: 'compare',
     description: 'Анализ цен компании Северсталь в сравнении с конкурентами.',
     icon: 'outline_document_report',
     action: () => {
@@ -37,7 +37,7 @@ const reportList = [
   },
   {
     title: 'Прогноз цен',
-    id: 'company',
+    id: 'prices',
     description: 'Получить профессиональный прогноз цен с графиками с помощью машинного обучения на основании данных за 10 лет.',
     icon: 'outline_presentation_chart_line',
     action: () => {
@@ -47,7 +47,7 @@ const reportList = [
   {
     title: 'Анализ компании',
     id: 'company',
-    description: 'Проанализировать компанию-конкурента по готовому шаблону или применить свой с помощью LLM.',
+    description: 'Проанализировать компанию-конкурента по готовому шаблону с помощью LLM.',
     icon: 'outline_document_search',
     action: () => {
       router.push('/analytics/company')
@@ -60,6 +60,24 @@ const reportList = [
     icon: 'outline_chart_bar',
     action: () => {
       router.push('/analytics/market')
+    }
+  },
+  {
+    title: 'Прогнозирование цены на металлопрокат',
+    id: 'prices-predict',
+    description: 'Прогнозирование ценны на металлопрокат на основе макроэкономических данных',
+    icon: 'outline_document_text',
+    action: () => {
+      router.push('/analytics/prices-predict')
+    }
+  },
+  {
+    title: 'Узнать средние цены',
+    id: 'prices-graph',
+    description: 'Получить статистику цен на металл для выбранного периода',
+    icon: 'outline_globe',
+    action: () => {
+      router.push('/analytics/prices-graph')
     }
   },
   {

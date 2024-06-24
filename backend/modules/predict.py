@@ -23,14 +23,13 @@ json_result_file_path = 'data/predict_result.json'
 docx_result_file_path = 'data/predict_result.docx'
 pdf_result_file_path = 'data/predict_result.pdf'
 
-def extract_chart_data(period=None, start_date=None, end_date=None, output_file = ''):
-    # Определение URL в зависимости от входных параметров
-    base_url = 'https://www.metalinfo.ru/ru/metalmarket/statistics'
+SOURCE = 'https://www.metalinfo.ru/ru/metalmarket/statistics'
 
+def extract_chart_data(period=None, start_date=None, end_date=None, output_file = ''):
     if period in ['year', 'quarter', 'last_year']:
-        url = f'{base_url}?stype=1&period={period}'
+        url = f'{SOURCE}?stype=1&period={period}'
     elif start_date and end_date:
-        url = f'{base_url}?stype=2&startDate={start_date}&endDate={end_date}'
+        url = f'{SOURCE}?stype=2&startDate={start_date}&endDate={end_date}'
     else:
         print("Неверные параметры. Укажите либо период (year, quarter, last_year), либо start_date и end_date.")
         return
@@ -192,11 +191,9 @@ def predict_next_year(is_new = 'false'):
     }
 
     response = ask_ai(request)
-    
-    source = 'https://www.metalinfo.ru/ru/metalmarket/statistics'
-    
+        
     result = {
-        "link": source,
+        "link": SOURCE,
         "report": response,
         "acf_pacf_chart": acf_pacf_chart,
         "forecast_chart": forecast_chart
@@ -217,4 +214,28 @@ def predict_next_year(is_new = 'false'):
         "result": result,
         "docx": docx_result_file_path,
         "pdf": pdf_result_file_path,
+    }
+    
+def get_prices(period=None, start_date=None, end_date=None):
+    df = extract_chart_data(period, start_date, end_date)
+    
+    if df is None:
+        return None
+
+    fig, ax = plt.subplots()
+    ax.plot(pd.to_datetime(df['Date'], format='%d.%m.%Y %H:%M:%S'), df['Average Price (RUB)'], marker='o')
+
+    ax.set(xlabel='Date', ylabel='Average Price (RUB)',
+           title='Средние цены на металл за период')
+    ax.grid()
+
+    # Форматирование даты на оси X
+    fig.autofmt_xdate()
+
+    # Конвертация графика в base64
+    img_base64 = plot_to_base64(fig)
+    
+    return {
+        "result": img_base64,
+        "link": SOURCE
     }
