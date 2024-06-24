@@ -78,6 +78,17 @@ export const useReportStore = defineStore('report', {
       } catch (err: any) {
         return err.response?.data?.error || 'Не удалось получить данные'
       }
+    },
+    async talkToAi(text: string) {
+      try {
+        const response = await axios.post(
+          `${apiBaseUrl}/api/talk-to-ai`,
+          { text },
+        )
+        return response.data.data
+      } catch (err: any) {
+        return err.response?.data?.error || 'Не удалось получить данные'
+      }
     }
   }
 })

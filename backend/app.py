@@ -11,6 +11,7 @@ from modules.agrerator import collect_analytics
 from modules.predict import predict_next_year
 from modules.compare_prices import compare_prices
 from modules.topics import get_news_by_topics
+from modules.talk import talk_to_ai
 
 app = Flask(__name__)
 app.secret_key = 'karimova'
@@ -200,6 +201,20 @@ def get_news_by_topics_endpoint():
 
     try:
         res = get_news_by_topics(topics)
+        return jsonify({"data": res})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route('/api/talk-to-ai', methods=['POST'])
+def talk_endpoint():
+    try:
+        data = request.get_json()
+        text = data.get('text')
+        
+        if not text:
+            return jsonify({"error": "No text provided"}), 400
+        
+        res = talk_to_ai(text)
         return jsonify({"data": res})
     except Exception as e:
         return jsonify({"error": str(e)}), 500

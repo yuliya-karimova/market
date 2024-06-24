@@ -29,7 +29,7 @@ const reportList = [
   {
     title: 'Анализ цен',
     id: 'market',
-    description: 'Анализ цен компании Северсталь в сравнении с конкурентами',
+    description: 'Анализ цен компании Северсталь в сравнении с конкурентами.',
     icon: 'outline_document_report',
     action: () => {
       router.push('/analytics/compare')
@@ -60,6 +60,15 @@ const reportList = [
     icon: 'outline_chart_bar',
     action: () => {
       router.push('/analytics/market')
+    }
+  },
+  {
+    title: 'Не нашли нужный формат?',
+    id: 'talk',
+    description: 'Спросите искусственный интеллект в свободной форме.',
+    icon: 'outline_emoji_happy',
+    action: () => {
+      router.push('/analytics/talk')
     }
   },
 ]

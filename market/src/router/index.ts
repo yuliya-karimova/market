@@ -3,6 +3,7 @@ import CompanyView from '@/views/CompanyView.vue'
 import PricesView from '@/views/PricesView.vue'
 import MarketView from '@/views/MarketView.vue'
 import CompareView from '@/views/CompareView.vue'
+import TalkView from '@/views/TalkView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,6 +32,11 @@ const router = createRouter({
       path: '/analytics/market',
       name: 'market',
       component: MarketView
+    },
+    {
+      path: '/analytics/talk',
+      name: 'talk',
+      component: TalkView
     },
     {
       path: '/analytics/prices',
