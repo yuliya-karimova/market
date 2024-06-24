@@ -80,11 +80,11 @@ export const themes: ButtonTheme = {
 }
 
 export const sizes = {
-  xs: 'h-6 px-2 text-xs font-medium',
-  sm: 'h-8 px-4 text-sm font-medium',
-  md: 'h-10 px-5 text-base font-medium',
-  lg: 'h-12 px-5 text-base font-medium',
-  xl: 'h-14 px-6 text-lg font-medium',
+  xs: 'h-6 px-2 text-xs',
+  sm: 'h-8 px-4 text-sm',
+  md: 'h-10 px-5 text-base',
+  lg: 'h-12 px-5 text-base',
+  xl: 'h-14 px-6 text-lg',
   none: '',
 }
 

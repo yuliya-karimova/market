@@ -25,7 +25,7 @@ export default defineConfig({
     emptyOutDir: true // Очистка директории перед сборкой
   },
   server: {
-    port: 3000
+    port: 3000,
   }
 })
 

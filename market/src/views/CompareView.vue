@@ -35,16 +35,22 @@
       <BaseButton theme="secondary" @click="() => getPrediction(true)">
         Сгенерировать новый отчет
       </BaseButton>
+      <BaseLink v-if="reportStore.compareReport?.pdf" :href="getFileUrl(reportStore.compareReport.pdf)">
+        <BaseButton> Скачать PDF </BaseButton>
+      </BaseLink>
+      <BaseLink v-if="reportStore.compareReport?.pdf" :href="getFileUrl(reportStore.compareReport.docx)">
+        <BaseButton> Скачать DOCX </BaseButton>
+      </BaseLink>
     </div>
     <div v-if="loading" class="flex justify-center py-12">
       <BaseSpinner />
     </div>
     <div v-if="error">{{ error }}</div>
     <div
-      v-if="reportStore.compareResult.length"
+      v-else-if="reportStore.compareReport"
       class="px-5 sm:px-10 pt-5 sm:pt-10 pb-5 bg-white shadow-sm rounded-xl mt-16"
     >
-      <div v-for="(res, index) in reportStore.compareResult" :key="index">
+      <div v-for="(res, index) in reportStore.compareReport.result" :key="index">
         <img v-if="res.pic" :src="'data:image/png;base64,' + res.pic" alt="pic" />
         <MarkdownBlock v-if="res.text" :content="res.text" />
       </div>
@@ -59,6 +65,12 @@ import BaseButton from '@/components/base/button/BaseButton.vue'
 import BaseIcon from '@/components/base/icon/BaseIcon.vue'
 import BaseSpinner from '@/components/base/BaseSpinner.vue'
 import { RouterLink } from 'vue-router'
+
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+
+const getFileUrl = (path: string) => {
+  return `${apiBaseUrl}/${path}`
+}
 
 const error = ref<string>('')
 const loading = ref<boolean>(false)

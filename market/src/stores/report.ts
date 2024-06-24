@@ -4,26 +4,34 @@ import axios from 'axios'
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 
 interface PredictionInterface {
-  link: string
-  report: string
-  acf_pacf_chart: Object
-  forecast_chart: Object
+  docx: string
+  pdf: string
+  result: {
+    link: string
+    report: string
+    acf_pacf_chart: Object
+    forecast_chart: Object
+  }
 }
 
 interface CompareInterface {
-  pic?: Object
-  text?: string
+  docx: string
+  pdf: string
+  result: {
+    pic?: Object
+    text?: string
+  }[]
 }
 
 interface ReportState {
   prediction: PredictionInterface | null
-  compareResult: CompareInterface[]
+  compareReport: CompareInterface | null
 }
 
 export const useReportStore = defineStore('report', {
   state: (): ReportState => ({
     prediction: null,
-    compareResult: []
+    compareReport: null
   }),
   actions: {
     async checkCompany(company: string, isNew = false): Promise<string> {
@@ -66,7 +74,7 @@ export const useReportStore = defineStore('report', {
             is_new: isNew
           }
         })
-        this.compareResult = response.data.data
+        this.compareReport = response.data.data
       } catch (err: any) {
         return err.response?.data?.error || 'Не удалось получить данные'
       }

@@ -15,3 +15,7 @@ babel
 openpyxl
 seaborn
 reportlab
+python-docx
+reportlab
+markdown
+markdown2

@@ -19,12 +19,14 @@ interface AnalyticsInterface {
 interface NewsState {
   analyticNews: NewsInterface[]
   analytic: AnalyticsInterface[]
+  topicNews: string | null
 }
 
 export const useNewsStore = defineStore('news', {
   state: (): NewsState => ({
     analyticNews: [],
-    analytic: []
+    analytic: [],
+    topicNews: null
   }),
   actions: {
     async fetchAnalyticNews() {
@@ -47,6 +49,22 @@ export const useNewsStore = defineStore('news', {
           }
         })
         this.analytic = response.data.data
+      } catch (err: any) {
+        return err.response?.data?.error || 'An error occurred'
+      }
+    },
+    async getNewsByTopics(topics: string[]) {
+      if (this.topicNews) {
+        return
+      }
+      
+      try {
+        const response = await axios.get(`${apiBaseUrl}/api/find-topics`, {
+          params: {
+            topics: topics.join(','),
+          }
+        })
+        this.topicNews = response.data.data
       } catch (err: any) {
         return err.response?.data?.error || 'An error occurred'
       }

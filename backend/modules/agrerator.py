@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import json
 import os
 
-json_result_file_path = 'data/agregator/agregator_result.json'
+json_result_file_path = 'data/agregator_result.json'
 
 def check_gostmetal():
     url = "https://gostmetal.ru/dinamika/#t-2-24"

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, send_from_directory, abort
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,6 +10,7 @@ from modules.news import read_analytic_news
 from modules.agrerator import collect_analytics
 from modules.predict import predict_next_year
 from modules.compare_prices import compare_prices
+from modules.topics import get_news_by_topics
 
 app = Flask(__name__)
 app.secret_key = 'karimova'
@@ -31,6 +32,17 @@ class User(db.Model):
 # Инициализация базы данных
 with app.app_context():
     db.create_all()
+    
+# Путь к директории, где хранятся ваши отчеты
+REPORTS_DIR = 'data'
+
+@app.route('/data/<path:filename>')
+def download_report(filename):
+    try:
+        # Возвращаем файл с заголовком, указывающим, что это файл для скачивания
+        return send_from_directory(REPORTS_DIR, filename, as_attachment=True)
+    except FileNotFoundError:
+        abort(404)
 
 @app.route('/api/register', methods=['POST'])
 def register():
@@ -181,6 +193,16 @@ def compare_prices_endpoint():
         return jsonify({"data": res})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/api/find-topics', methods=['GET'])
+def get_news_by_topics_endpoint():
+    topics = request.args.get('topics')
 
+    try:
+        res = get_news_by_topics(topics)
+        return jsonify({"data": res})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)

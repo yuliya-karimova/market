@@ -51,7 +51,7 @@ const props = defineProps({
   },
   weight: {
     type: [String],
-    default: 'semibold'
+    default: 'normal'
   },
   target: {
     type: String,

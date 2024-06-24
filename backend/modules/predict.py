@@ -19,9 +19,9 @@ import matplotlib
 matplotlib.use('Agg')
 
 prices_file = 'data/metal_prices.xlsx'
-json_result_file_path = 'data/predict/predict_result.json'
-docx_result_file_path = 'data/predict/predict_result.docx'
-pdf_result_file_path = 'data/predict/predict_result.pdf'
+json_result_file_path = 'data/predict_result.json'
+docx_result_file_path = 'data/predict_result.docx'
+pdf_result_file_path = 'data/predict_result.pdf'
 
 def extract_chart_data(period=None, start_date=None, end_date=None, output_file = ''):
     # Определение URL в зависимости от входных параметров
@@ -101,22 +101,16 @@ def plot_to_base64(fig):
 
 def predict_next_year(is_new = 'false'):
     # Если is_new установлен в 'false', прочитать данные из JSON-файла
-    if is_new == 'false' and os.path.exists(json_result_file_path):
+    if is_new == 'false' and os.path.exists(json_result_file_path) and os.path.exists(docx_result_file_path) and os.path.exists(pdf_result_file_path):
         with open(json_result_file_path, 'r', encoding='utf-8') as f:
             json_data = json.load(f)
-            res = json_data.get("data", [])
+            result = json_data.get("data", [])
             
-            # # Сохранение отчета в DOCX и PDF
-            images = [res['acf_pacf_chart'], res['forecast_chart']]
-            link = res['link']
-            report = res['report']
-            
-            report_text = "\n".join([f'Источник данных по ценам: {link}', 'Расшифровка и анализ:', report])
-            
-            save_to_docx(report_text, images, docx_result_file_path)
-            save_to_pdf(report_text, images, pdf_result_file_path)
-                    
-            return res
+            return {
+                "result": result,
+                "docx": docx_result_file_path,
+                "pdf": pdf_result_file_path,
+            }
         
     today = datetime.today()
     # Форматирование даты в "dd-mm-yyyy"
@@ -219,4 +213,8 @@ def predict_next_year(is_new = 'false'):
     save_to_docx(report_text, images, docx_result_file_path)
     save_to_pdf(report_text, images, pdf_result_file_path)
     
-    return result
+    return {
+        "result": result,
+        "docx": docx_result_file_path,
+        "pdf": pdf_result_file_path,
+    }

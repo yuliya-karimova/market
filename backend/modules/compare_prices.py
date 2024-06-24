@@ -13,6 +13,7 @@ import base64
 from io import BytesIO
 from modules.ai import ask_ai
 import json
+from modules.utils import save_to_docx, save_to_pdf
 
 import matplotlib
 matplotlib.use('Agg')
@@ -25,15 +26,24 @@ def plot_to_base64(fig):
     buf.close()
     return img_base64
 
-file_path = 'data/compare/compare_ids_result.xlsx'
-json_result_file_path = 'data/compare/compare_result.json'
+file_path = 'data/compare_ids_result.xlsx'
+json_result_file_path = 'data/compare_result.json'
+docx_result_file_path = 'data/compare_result.docx'
+pdf_result_file_path = 'data/compare_result.pdf'
 
 def compare_prices(is_new = 'false'):
     # Если is_new установлен в 'false', прочитать данные из JSON-файла
+    # if is_new == 'false' and os.path.exists(json_result_file_path) and os.path.exists(docx_result_file_path) and os.path.exists(pdf_result_file_path):
     if is_new == 'false' and os.path.exists(json_result_file_path):
         with open(json_result_file_path, 'r', encoding='utf-8') as f:
             json_data = json.load(f)
-            return json_data.get("data", [])
+            result = json_data.get("data", [])
+            
+            return {
+                "result": result,
+                "docx": docx_result_file_path,
+                "pdf": pdf_result_file_path,
+            }
         
     compare_response = []
 
@@ -467,5 +477,18 @@ def compare_prices(is_new = 'false'):
     # Сохранение результата в JSON-файл
     with open(json_result_file_path, 'w', encoding='utf-8') as f:
         json.dump({"data": compare_response}, f, ensure_ascii=False, indent=4)
-
-    return compare_response
+        
+    # Сохранение отчета в DOCX и PDF
+    images = [item["pic"] for item in compare_response if "pic" in item]
+    texts = [item["text"] for item in compare_response if "text" in item]
+    report_text = "\n".join(texts)
+    
+    save_to_docx(report_text, images, docx_result_file_path)
+    save_to_pdf(report_text, images, pdf_result_file_path)
+    
+    return {
+        "result": compare_response,
+        "docx": docx_result_file_path,
+        "pdf": pdf_result_file_path,
+    }
+    
